@@ -16,9 +16,18 @@ defmodule PlanAndPoker.GameMemory do
   end
 
   @doc """
-  Puts the state for the given key in the game memory
+  Puts the state for the given key in the game memory.
   """
   def put(memory, key, state) do
     Agent.update(memory, &Map.put(&1, key, state))
+  end
+
+  @doc """
+  Deletes the state by key.
+
+  Returns the current value of key, if key exists.
+  """
+  def delete(memory, key) do
+    Agent.get_and_update(memory, &Map.pop(&1, key))
   end
 end
