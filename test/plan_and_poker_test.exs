@@ -3,6 +3,6 @@ defmodule PlanAndPokerTest do
   doctest PlanAndPoker
 
   test "greets the world" do
-    assert PlanAndPoker.hello() == :oops
+    assert PlanAndPoker.hello() == :world
   end
 end
