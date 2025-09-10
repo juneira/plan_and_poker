@@ -4,7 +4,7 @@ defmodule PlanAndPoker.GameStoreTest do
   use ExUnit.Case, async: true
 
   setup do
-    {:ok, memory} = GameMemory.start_link(%{})
+    memory = start_supervised!(GameMemory, %{})
     %{memory: memory}
   end
 
