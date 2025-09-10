@@ -1,18 +1,8 @@
 defmodule PlanAndPoker do
-  @moduledoc """
-  Documentation for `PlanAndPoker`.
-  """
+  use Application
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PlanAndPoker.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  @impl true
+  def start(_type, _args) do
+    PlanAndPoker.Supervisor.start_link(name: PlanAndPoker.Supervisor)
   end
 end
