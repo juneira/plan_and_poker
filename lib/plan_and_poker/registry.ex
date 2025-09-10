@@ -43,10 +43,13 @@ defmodule PlanAndPoker.Registry do
 
   @impl true
   def handle_cast({:create, name}, {names, refs}) do
+    alias PlanAndPoker.GameMemorySupervisor
+    alias PlanAndPoker.GameMemory
+
     if Map.has_key?(names, name) do
       {:noreply, {names, refs}}
     else
-      {:ok, memory} = PlanAndPoker.GameMemory.start_link([])
+      {:ok, memory} = DynamicSupervisor.start_child(GameMemorySupervisor, GameMemory)
       ref = Process.monitor(memory)
       refs = Map.put(refs, ref, name)
       names = Map.put(names, name, memory)

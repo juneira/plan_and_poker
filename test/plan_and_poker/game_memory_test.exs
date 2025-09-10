@@ -22,4 +22,8 @@ defmodule PlanAndPoker.GameStoreTest do
     assert GameMemory.delete(memory, :any_key) == nil
     assert GameMemory.get(memory, :any_key) == nil
   end
+
+  test "are temporary workers" do
+    assert Supervisor.child_spec(GameMemory, []).restart == :temporary
+  end
 end

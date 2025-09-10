@@ -27,4 +27,12 @@ defmodule PlanAndPoker.RegistryTest do
 
     assert Registry.lookup(registry, "game one") == :error
   end
+
+  test "removes bucket on crash", %{registry: registry} do
+    Registry.create(registry, "game one")
+    {:ok, memory} = Registry.lookup(registry, "game one")
+
+    Agent.stop(memory, :shutdown)
+    assert Registry.lookup(registry, "game one") == :error
+  end
 end
