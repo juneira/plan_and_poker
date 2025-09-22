@@ -7,9 +7,13 @@ defmodule PlanAndPokerServer.Application do
 
   @impl true
   def start(_type, _args) do
+    port = String.to_integer(System.get_env("PORT") || "4040")
+
     children = [
-      # Starts a worker by calling: PlanAndPokerServer.Worker.start_link(arg)
-      # {PlanAndPokerServer.Worker, arg}
+      {Task.Supervisor, name: PlanAndPokerServer.TaskSupervisor},
+      Supervisor.child_spec({Task, fn -> PlanAndPokerServer.accept(port) end},
+        restart: :permanent
+      )
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
