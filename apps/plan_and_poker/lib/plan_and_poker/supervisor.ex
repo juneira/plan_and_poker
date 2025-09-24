@@ -9,7 +9,8 @@ defmodule PlanAndPoker.Supervisor do
   def init(:ok) do
     children = [
       {DynamicSupervisor, name: PlanAndPoker.GameMemorySupervisor, strategy: :one_for_one},
-      {PlanAndPoker.Registry, name: PlanAndPoker.Registry}
+      {PlanAndPoker.Registry, name: PlanAndPoker.Registry},
+      {Task.Supervisor, name: PlanAndPoker.RouterTasks}
     ]
 
     Supervisor.init(children, strategy: :one_for_all)

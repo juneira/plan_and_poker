@@ -15,6 +15,7 @@ defmodule PlanAndPokerServerTest do
     %{socket: socket}
   end
 
+  @tag :distributed
   test "server interaction", %{socket: socket} do
     assert send_and_recv(socket, "UNKNOWN gameOne\r\n") == "UNKNOWN COMMAND\r\n"
     assert send_and_recv(socket, "GET gameOne marcelo\r\n") == "NOT FOUND\r\n"

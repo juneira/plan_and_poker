@@ -5,8 +5,13 @@ defmodule PlanAndPokerServer.Command do
   def run(command)
 
   def run({:create, memory}) do
-    PlanAndPoker.Registry.create(PlanAndPoker.Registry, memory)
-    {:ok, "OK\r\n"}
+    case PlanAndPoker.Router.route(memory, PlanAndPoker.Registry, :create, [
+           PlanAndPoker.Registry,
+           memory
+         ]) do
+      pid when is_pid(pid) -> {:ok, "OK\r\n"}
+      _ -> {:error, "FAILED TO CREATE Memory"}
+    end
   end
 
   def run({:get, memory, key}) do
@@ -31,7 +36,10 @@ defmodule PlanAndPokerServer.Command do
   end
 
   defp lookup(memory, callback) do
-    case PlanAndPoker.Registry.lookup(PlanAndPoker.Registry, memory) do
+    case PlanAndPoker.Router.route(memory, PlanAndPoker.Registry, :lookup, [
+           PlanAndPoker.Registry,
+           memory
+         ]) do
       {:ok, pid} -> callback.(pid)
       :error -> {:error, :not_found}
     end
